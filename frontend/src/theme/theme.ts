@@ -45,7 +45,6 @@ const theme = createTheme({
           textTransform: "none",
           borderRadius: 5,
           fontWeight: 700,
-          margin: "0 8px",
         },
       },
       defaultProps: {
