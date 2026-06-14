@@ -29,6 +29,9 @@ const Navbar = () => {
                     <Button color="inherit" component={NavLink} to="/products">
                         Продукти
                     </Button>
+                    <Button color="inherit" component={NavLink} to="/apply">
+                        Анкета
+                    </Button>
 
                     {isAuth ? 
                         (

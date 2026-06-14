@@ -8,6 +8,7 @@ import ArticlePage from "../pages/ArticlePage";
 import LoginPage from "../pages/LoginPage";
 import Profile from "../pages/Profile";
 import PrivateRoute from "./PrivateRoute";
+import ApplyPage from "../pages/ApplyPage";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <LoginPage />
+            },
+            {
+                path: '/apply',
+                element: <ApplyPage />
             },
             {
                 element: <PrivateRoute />,

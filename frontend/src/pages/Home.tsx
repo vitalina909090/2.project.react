@@ -26,6 +26,7 @@ const Home = () => {
         updateArticle({
             id: 3,
             title: "Updated Article 3",
+            content: 'Updated content',
         })
     };
 

@@ -1,21 +1,23 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLoginMutation} from '../api/authApi';
 import { LoginSchema, type LoginData } from '../validations/LoginSchema';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setToken } from '../store/authSlice';
 import { useDispatch } from 'react-redux';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 
 const LoginPage = () => {
-    const [loginUser, { isLoading, error }] = useLoginMutation();
+    const [loginUser] = useLoginMutation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm({
         mode: "onChange",
@@ -23,9 +25,21 @@ const LoginPage = () => {
     });
 
     const onSubmit = async (data: LoginData) => {
-        const user = await loginUser(data);
-        dispatch(setToken(user.data.token));
-        navigate("/");
+        try{
+            const user = await loginUser(data).unwrap();
+            dispatch(setToken(user.token));
+            navigate("/");
+        } catch (err) {
+            const fetchError = err as FetchBaseQueryError;
+            const data = fetchError.data as { error?: { message?: string } };
+            const message = data?.error?.message || "Помилка сервера";
+
+            if (message.includes("password")) {
+                setError('password', { type: 'manual', message: message }, { shouldFocus: true });
+            } else {
+                setError('email', { type: 'manual', message: message }, { shouldFocus: true });
+            }
+        }
     };
 
     return (
@@ -33,6 +47,7 @@ const LoginPage = () => {
             <Typography variant="h1" align="center">
                 Увійти
             </Typography>
+
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
                 <TextField
                     type='email'
@@ -58,6 +73,12 @@ const LoginPage = () => {
                 <Button type="submit" variant="contained" fullWidth>
                     Увійти
                 </Button>
+            </Box>
+
+            <Box sx={{ mt: 2 }}>
+                <Typography>
+                    Немає аккаунту? <Link to="/register">Зареєструватися</Link>
+                </Typography>
             </Box>
         </Box>
     );
