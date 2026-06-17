@@ -9,6 +9,7 @@ import LoginPage from "../pages/LoginPage";
 import Profile from "../pages/Profile";
 import PrivateRoute from "./PrivateRoute";
 import ApplyPage from "../pages/ApplyPage";
+import ArticleAddPage from "../pages/ArticleAddPage";
 
 const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
                         path: '/profile',
                         element: <Profile />
                     },
+                    {
+                        path: 'add-article',
+                        element: <ArticleAddPage />
+                    }
                 ],
             },
             {

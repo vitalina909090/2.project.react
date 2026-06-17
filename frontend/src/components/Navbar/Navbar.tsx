@@ -36,8 +36,13 @@ const Navbar = () => {
                     {isAuth ? 
                         (
                         <>
+                            <Button color="inherit" component={NavLink} to="/add-article">
+                                Додати статтю
+                            </Button>
+
                             <Link to="/profile"><Avatar>{user?.name?.[0]?.toUpperCase() ?? "?"}</Avatar></Link>
                             <Button color="inherit" onClick={handleLogout}>Вийти</Button>
+
                         </>
 
                         ) : (
